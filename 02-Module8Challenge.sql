@@ -1,6 +1,4 @@
-/*
-Module 8 Challenge: SQL Statements
-*/
+/* Module 8 Challenge: SQL Statements */
 
 /*
 Instructions:
@@ -28,30 +26,42 @@ The list should include the product name, unit price,
 and how many units Northwind has in stock.
 */
 
-/
-*2.	
+SELECT ProductName, UnitPrice, UnitsInStock FROM Products;
+
+/*
+2.	
 List the product name and units in stock for products where UnitsInStock equals zero.
 */
+
+SELECT ProductName, UnitsInStock FROM Products WHERE UnitsInStock = 0;
 
 /*
 3.	List the product name and the unit price for each product. 
 Sort the list with the smallest unit price on top.
 */
 
+SELECT ProductName, UnitPrice FROM Products ORDER BY UnitPrice ASC;
 
 /*
 4.	List all products with the brand "Sir Rodney's" in the product name. 
 */
 
+SELECT * FROM Products WHERE ProductName LIKE '%Sir Rodney''s%';
+
 
 /*
 5.	Create a list of product names and product IDs for products 
-with supplier ID 20. Order by product name. */
+with supplier ID 20. Order by product name. 
+*/
+
+SELECT ProductName, ProductID FROM Products WHERE SupplierID = 20 ORDER BY ProductName ASC;
 
 /*
 6.	List the product ID and product name for products with 
 zero units on order. Order by product ID. 
 */
+
+SELECT ProductID, ProductName FROM Products WHERE UnitsOnOrder = 0 ORDER BY ProductID ASC;
 
 /*
 7. Your boss has asked you for a list of orders for
@@ -62,17 +72,28 @@ zero units on order. Order by product ID.
        (Hint: Use a JOIN to retrieve data from more than one table.)
 */
 
+SELECT o.OrderID, c.CompanyName,
+e.FirstName + ' ' + e.LastName AS EmployeeName 
+FROM Orders AS o JOIN Customers AS c ON o.CustomerID = c.CustomerID 
+JOIN Employees AS e ON o.EmployeeID = e.EmployeeID
+WHERE e.FirstName = 'Janet'
+AND e.LastName = 'Leverling'
+ORDER BY o.OrderID ASC;
+
+
 /*
 8. Insert a new record into the products table with a product name
     that is your favorite food, a unit price that is $4.55, supplier ID 26, and category ID 5.
 */
  
-
+INSERT INTO Products (ProductName, UnitPrice, SupplierID, CategoryID) VALUES ('Hot Dog', 4.55, 26, 5);
 
 /*
 9. Display the new record you added to the products table 
 where the product name is your favorite food.
 */
+
+SELECT * FROM Products WHERE ProductName = 'Hot Dog';
 
 /*
 10. Insert a record into the suppliers table.
@@ -85,15 +106,26 @@ where the product name is your favorite food.
     - Saint Paul as the city
 */
  
+INSERT INTO Suppliers (CompanyName, ContactName, ContactTitle, Address, City) 
+VALUES ('Minneapolis College', 'Ryad Abdelgalil', 'Manager', '123 Sesame Street', 'Saint Paul');
+
 /*
 11. Display the new record that you created in the suppliers
     table to ensure it was inserted correctly.
 */
 
+SELECT * FROM Suppliers WHERE SupplierID = 30;
+
 /*
 12. Update the record in the products table for your favorite food.
 Change the unit price from $4.55 to $9.99.
 */
+
+UPDATE Products SET UnitPrice = 9.99 WHERE ProductName = 'Hot Dog';
+
+/* Display the new price of the favorite food */
+
+SELECT ProductName, UnitPrice FROM Products WHERE ProductName = 'Hot Dog';
 
 /*
 13. Insert a new record into the Categories table. 
@@ -104,14 +136,21 @@ You don't need to insert a value into the Picture column
 because it is optional.
 */
 
+INSERT INTO Categories (CategoryName, Description) 
+VALUES ('Ice Cream', 'Frosty desserts');
+
+/* 
+14. Display the newly added record into the Categories table 
+*/
+SELECT CategoryID, CategoryName, Description FROM Categories WHERE CategoryName = 'Ice Cream';
+
 /*
-14. Delete the record you just inserted into the Categories table.
+15. Delete the record you just inserted into the Categories table.
 */
  
+DELETE FROM Categories WHERE CategoryName = 'Ice Cream';
 
-
-
-
-
-	
- 
+/*
+16. Display Categories table after removing the Ice Cream item. 
+*/
+SELECT CategoryID, CategoryName, Description FROM Categories WHERE CategoryName = 'Ice Cream';
